@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Wishlist')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="page-header">
+        <div>
+            <h1>Wishlist</h1>
+            <p>Saved courses you may want to apply for later.</p>
+        </div>
+        <a th:href="@{/student/courses}" class="btn btn-outline">Browse courses</a>
+    </div>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(wishlist)}">No saved courses yet.</div>
+
+    <div class="grid" th:unless="${#lists.isEmpty(wishlist)}">
+        <div class="card" th:each="course : ${wishlist}">
+            <h3 th:text="${course.title}">Course</h3>
+            <p class="meta" th:text="${course.description}">Description</p>
+            <div class="price" th:text="'₹' + ${#numbers.formatDecimal(course.price, 1, 2)}">₹0</div>
+            <p class="meta" th:text="'Category: ' + ${course.category}">Category</p>
+            <p class="meta" th:text="'Level: ' + ${course.level}">Level</p>
+            <div style="display:flex; gap:8px; margin-top:14px;">
+                <form th:action="@{/student/wishlist/remove/{id}(id=${course.id})}" method="post">
+                    <button type="submit" class="btn btn-outline btn-sm">Remove</button>
+                </form>
+                <form th:action="@{/student/subscribe/{id}(id=${course.id})}" method="post">
+                    <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

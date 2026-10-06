@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Counsellor dashboard')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="page-header">
+        <div>
+            <h1>Counsellor dashboard</h1>
+            <p>Monitor student activity, payments, and enrolment trends.</p>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a th:href="@{/counsellor/students}" class="btn btn-primary">View students</a>
+            <a th:href="@{/counsellor/payments}" class="btn btn-outline">Payment tracking</a>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card stat-card">
+            <b th:text="${totalCourses}">0</b>
+            <span>Total programs</span>
+        </div>
+        <div class="card stat-card">
+            <b th:text="${totalStudents}">0</b>
+            <span>Students</span>
+        </div>
+        <div class="card stat-card">
+            <b th:text="'₹' + ${#numbers.formatDecimal(totalRevenue, 1, 2)}">₹0</b>
+            <span>Revenue</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

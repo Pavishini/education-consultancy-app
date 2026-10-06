@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<div th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title} + ' · EduConsult'">EduConsult</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</div>
+
+<div th:fragment="navbar">
+    <header class="navbar">
+        <a th:href="@{/}" class="brand">Edu<span>Consult</span></a>
+        <nav>
+            <span sec:authorize="isAuthenticated()" sec:authentication="name" style="color:#AAB2C5; margin-right:6px; font-size:0.9rem;"></span>
+
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}">Dashboard</a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/analytics}">Analytics</a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/courses}">Manage Courses</a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/students}">Students</a>
+
+            <a sec:authorize="hasRole('STUDENT')" th:href="@{/student/dashboard}">Dashboard</a>
+            <a sec:authorize="hasRole('STUDENT')" th:href="@{/student/courses}">Courses</a>
+            <a sec:authorize="hasRole('STUDENT')" th:href="@{/student/wishlist}">Wishlist</a>
+            <a sec:authorize="hasRole('STUDENT')" th:href="@{/student/subscriptions}">My Subscriptions</a>
+            <a sec:authorize="hasRole('STUDENT')" th:href="@{/student/transactions}">Transactions</a>
+
+            <a sec:authorize="hasRole('COUNSELLOR')" th:href="@{/counsellor/dashboard}">Dashboard</a>
+            <a sec:authorize="hasRole('COUNSELLOR')" th:href="@{/counsellor/students}">Students</a>
+            <a sec:authorize="hasRole('COUNSELLOR')" th:href="@{/counsellor/payments}">Payments</a>
+
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/register}">Register</a>
+        </nav>
+
+        <div class="nav-user" sec:authorize="isAuthenticated()">
+            <a sec:authorize="hasRole('STUDENT')" th:href="@{/student/profile}" class="profile-badge" th:title="${#authentication.name}" aria-label="Open profile">
+                <span th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">U</span>
+            </a>
+            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="logout-form">
+                <button type="submit">Log out</button>
+            </form>
+        </div>
+    </header>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Browse courses')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="page-header">
+        <div>
+            <h1>Available courses</h1>
+            <p>Subscribe to any program to get started.</p>
+        </div>
+    </div>
+
+    <div class="alert" th:if="${error != null}" th:text="${error}" style="margin-bottom:16px; color:#b42318; background:#fef3f2; border:1px solid #fecdca; padding:10px 14px; border-radius:8px;">
+        Error message
+    </div>
+    <div class="alert" th:if="${success != null}" th:text="${success}" style="margin-bottom:16px; color:#027a48; background:#ecfdf5; border:1px solid #a7f3d0; padding:10px 14px; border-radius:8px;">
+        Success message
+    </div>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(courses)}">No courses are available right now. Check back soon.</div>
+
+    <div class="grid" th:unless="${#lists.isEmpty(courses)}">
+        <div class="card" th:each="c : ${courses}">
+            <h3 th:text="${c.title}">Course title</h3>
+            <p class="meta" th:text="${c.description}">Description</p>
+            <div class="price" th:text="'₹' + ${#numbers.formatDecimal(c.price, 1, 2)}">₹0</div>
+            <p class="meta" th:text="'Duration: ' + ${c.duration}">Duration</p>
+
+            <div class="card-actions">
+                <form th:action="@{/student/wishlist/{id}(id=${c.id})}" method="post" class="inline-form">
+                    <button type="submit" class="wishlist-btn" title="Add to wishlist" aria-label="Add to wishlist">♡</button>
+                </form>
+
+                <form th:action="@{/student/subscribe/{id}(id=${c.id})}" method="post" class="inline-form">
+                    <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Admin dashboard')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="page-header">
+        <div>
+            <h1>Admin dashboard</h1>
+            <p>An overview of courses, subscriptions, and revenue.</p>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a th:href="@{/admin/courses}" class="btn btn-primary">Manage courses</a>
+            <a th:href="@{/admin/students}" class="btn btn-outline">Manage students</a>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card stat-card">
+            <b th:text="${totalCourses}">0</b>
+            <span>Courses offered</span>
+        </div>
+        <div class="card stat-card">
+            <b th:text="${totalSubscriptions}">0</b>
+            <span>Total subscriptions</span>
+        </div>
+        <div class="card stat-card">
+            <b th:text="'₹' + ${#numbers.formatDecimal(totalRevenue, 1, 2)}">₹0</b>
+            <span>Revenue collected</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

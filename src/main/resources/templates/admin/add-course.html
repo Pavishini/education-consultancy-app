@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Manage courses')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="page-header">
+        <div>
+            <h1>Manage courses</h1>
+            <p>Add new consultancy programs for students to subscribe to.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <h3 style="margin-bottom:16px;">Add a new course</h3>
+        <form th:action="@{/admin/courses/add}" th:object="${course}" method="post">
+            <div class="field">
+                <label for="title">Course title</label>
+                <input type="text" id="title" th:field="*{title}" required/>
+            </div>
+            <div class="field">
+                <label for="description">Description</label>
+                <textarea id="description" th:field="*{description}" rows="3" required></textarea>
+            </div>
+            <div class="field">
+                <label for="duration">Duration</label>
+                <input type="text" id="duration" th:field="*{duration}" placeholder="e.g. 6 weeks" required/>
+            </div>
+            <div class="field">
+                <label for="price">Price (₹)</label>
+                <input type="number" id="price" th:field="*{price}" step="0.01" min="0" required/>
+            </div>
+            <button type="submit" class="btn btn-primary">Add course</button>
+        </form>
+    </div>
+
+    <div class="section-title">
+        <h3 style="margin:0;">Existing courses</h3>
+    </div>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(courses)}">No courses added yet.</div>
+
+    <table th:unless="${#lists.isEmpty(courses)}">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Duration</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${courses}">
+            <td th:text="${c.title}">Title</td>
+            <td th:text="${c.duration}">Duration</td>
+            <td th:text="'₹' + ${#numbers.formatDecimal(c.price, 1, 2)}">₹0</td>
+            <td><a th:href="@{/admin/courses/delete/{id}(id=${c.id})}" class="btn btn-outline btn-sm" onclick="return confirm('Delete this course?')">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

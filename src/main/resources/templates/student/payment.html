@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Make payment')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="auth-wrap">
+    <h2>Complete your payment</h2>
+    <p class="sub" th:text="'For: ' + ${subscription.course.title}">For course</p>
+
+    <div class="alert alert-error" th:if="${paymentError != null}" th:text="${paymentError}">Payment error</div>
+
+    <div class="field">
+        <label>Amount due</label>
+        <input type="text" th:value="'₹' + ${#numbers.formatDecimal(subscription.course.price, 1, 2)}" readonly/>
+    </div>
+
+    <form th:if="${razorpayConfigured}" th:action="@{/student/pay/{id}/order(id=${subscription.id})}" method="post">
+        <button type="submit" class="btn btn-primary" style="width:100%;">Continue to secure checkout</button>
+    </form>
+    <div class="alert" th:unless="${razorpayConfigured}">
+        Razorpay test mode is not configured. Set RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, and RAZORPAY_WEBHOOK_SECRET before accepting test payments.
+    </div>
+</div>
+
+</body>
+</html>

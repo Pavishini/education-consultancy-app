@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Study abroad, sorted')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<section class="hero">
+    <div class="hero-copy">
+        <h1>Your study-abroad journey, in one place.</h1>
+        <p>Browse counselling courses, subscribe in a click, and track every payment — built for students planning their next move abroad.</p>
+        <div class="hero-actions">
+            <a th:href="@{/register}" class="btn btn-primary">Get started</a>
+            <a th:href="@{/login}" class="btn btn-outline">I already have an account</a>
+        </div>
+    </div>
+
+    <div class="hero-stats">
+        <div class="stat">
+            <b>3+</b>
+            <span>Consultancy programs</span>
+        </div>
+        <div class="stat">
+            <b>100%</b>
+            <span>Online enrollment</span>
+        </div>
+        <div class="stat">
+            <b>1</b>
+            <span>Place for your subscriptions</span>
+        </div>
+        <div class="stat">
+            <b>24/7</b>
+            <span>Access to your records</span>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My subscriptions')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="page-header">
+        <div>
+            <h1>My subscriptions</h1>
+            <p>Courses you've subscribed to and their payment status.</p>
+        </div>
+        <a th:href="@{/student/courses}" class="btn btn-outline">Browse more courses</a>
+    </div>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(subscriptions)}">
+        You haven't subscribed to any course yet. <a th:href="@{/student/courses}">Browse courses</a>.
+    </div>
+
+    <table th:unless="${#lists.isEmpty(subscriptions)}">
+        <thead>
+        <tr>
+            <th>Course</th>
+            <th>Subscribed on</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${subscriptions}">
+            <td th:text="${s.course.title}">Course</td>
+            <td th:text="${#temporals.format(s.subscribedAt, 'dd MMM yyyy')}">Date</td>
+            <td>
+                <span class="badge badge-paid" th:if="${s.status == 'PAID'}">Paid</span>
+                <span class="badge badge-active" th:unless="${s.status == 'PAID'}">Payment required</span>
+            </td>
+            <td>
+                <a th:if="${s.status != 'PAID'}" th:href="@{/student/pay/{id}(id=${s.id})}" class="btn btn-primary btn-sm">Pay now</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

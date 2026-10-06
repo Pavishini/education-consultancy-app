@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My dashboard')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="page-header">
+        <div>
+            <h1 th:text="'Welcome, ' + ${student.fullName}">Welcome</h1>
+            <p>Here's a quick look at your consultancy account.</p>
+        </div>
+        <a th:href="@{/student/courses}" class="btn btn-primary">Browse courses</a>
+    </div>
+
+    <div class="grid">
+        <div class="card stat-card">
+            <b th:text="${subscriptionCount}">0</b>
+            <span>Active subscriptions</span>
+        </div>
+        <div class="card">
+            <h3>Track your payments</h3>
+            <p class="meta">View a full history of every payment you've made.</p>
+            <a th:href="@{/student/transactions}" class="btn btn-outline btn-sm">View transactions</a>
+        </div>
+        <div class="card">
+            <h3>Manage subscriptions</h3>
+            <p class="meta">See which courses you're enrolled in and pay outstanding ones.</p>
+            <a th:href="@{/student/subscriptions}" class="btn btn-outline btn-sm">View subscriptions</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

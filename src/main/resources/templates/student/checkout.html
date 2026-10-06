@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Secure checkout')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="auth-wrap">
+    <h2>Secure checkout</h2>
+    <p class="sub" th:text="'Payment for ' + ${subscription.course.title}">Course name</p>
+    <p>Amount: <strong th:text="'₹' + ${#numbers.formatDecimal(subscription.course.price, 1, 2)}">₹0</strong></p>
+    <button id="checkout-button" class="btn btn-primary" type="button" style="width:100%;">Open Razorpay Checkout</button>
+    <p class="sub" style="font-size:0.8rem; margin-top:16px;">Payment remains pending until Razorpay confirms it.</p>
+
+    <form id="confirmation-form" th:action="@{/student/pay/{id}/confirm(id=${subscription.id})}" method="post" hidden>
+        <input type="hidden" name="razorpay_order_id"/>
+        <input type="hidden" name="razorpay_payment_id"/>
+        <input type="hidden" name="razorpay_signature"/>
+    </form>
+</main>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script th:inline="javascript">
+    const options = {
+        key: [[${razorpayKeyId}]],
+        amount: [[${paymentAmountPaise}]],
+        currency: "INR",
+        name: "EduConsult",
+        description: [[${subscription.course.title}]],
+        order_id: [[${razorpayOrderId}]],
+        handler: function (response) {
+            const form = document.getElementById("confirmation-form");
+            form.elements.namedItem("razorpay_order_id").value = response.razorpay_order_id;
+            form.elements.namedItem("razorpay_payment_id").value = response.razorpay_payment_id;
+            form.elements.namedItem("razorpay_signature").value = response.razorpay_signature;
+            form.submit();
+        },
+        modal: { escape: true }
+    };
+
+    document.getElementById("checkout-button").addEventListener("click", function () {
+        new Razorpay(options).open();
+    });
+</script>
+
+</body>
+</html>

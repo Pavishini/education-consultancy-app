@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Transaction history')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="page-header">
+        <div>
+            <h1>Transaction history</h1>
+            <p>Every payment you've made through EduConsult.</p>
+        </div>
+    </div>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(payments)}">No payments made yet.</div>
+
+    <table th:unless="${#lists.isEmpty(payments)}">
+        <thead>
+        <tr>
+            <th>Course</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${payments}">
+            <td th:text="${p.subscription.course.title}">Course</td>
+            <td th:text="'₹' + ${#numbers.formatDecimal(p.amount, 1, 2)}">₹0</td>
+            <td th:text="${#temporals.format(p.paymentDate, 'dd MMM yyyy, hh:mm a')}">Date</td>
+            <td>
+                <span class="badge badge-paid" th:if="${p.status == 'SUCCESS'}">Paid</span>
+                <span class="badge badge-active" th:if="${p.status == 'PENDING'}">Pending</span>
+                <span class="badge" th:if="${p.status == 'FAILED'}" th:text="${p.failureReason != null ? p.failureReason : 'Failed'}">Failed</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Student management')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="page-header">
+        <div>
+            <h1>Student management</h1>
+            <p>View all student profiles and filter by active status.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <form method="get" th:action="@{/counsellor/students}">
+            <div class="field" style="margin-bottom:0;">
+                <label for="status">Filter by status</label>
+                <select id="status" name="status">
+                    <option value="ALL" th:selected="${selectedStatus == 'ALL'}">All</option>
+                    <option value="ACTIVE" th:selected="${selectedStatus == 'ACTIVE'}">Active</option>
+                    <option value="PENDING" th:selected="${selectedStatus == 'PENDING'}">Pending</option>
+                    <option value="INACTIVE" th:selected="${selectedStatus == 'INACTIVE'}">Inactive</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:12px;">Apply filter</button>
+        </form>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Preferred course</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${students}">
+            <td th:text="${student.fullName}">Student</td>
+            <td th:text="${student.email}">Email</td>
+            <td th:text="${student.phoneNumber != null ? student.phoneNumber : 'Not added'}">Phone</td>
+            <td th:text="${student.preferredCourse != null ? student.preferredCourse : 'N/A'}">Course</td>
+            <td><span class="badge badge-active" th:text="${student.status}">ACTIVE</span></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(students)}">
+            <td colspan="5" class="muted">No students match this filter.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

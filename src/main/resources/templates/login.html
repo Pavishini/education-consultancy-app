@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Log in')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="auth-wrap">
+    <h2>Welcome back</h2>
+    <p class="sub">Log in to manage your courses.</p>
+
+    <div class="alert alert-error" th:if="${param.error}">Incorrect email or password. Try again.</div>
+    <div class="alert alert-success" th:if="${param.logout}">You've been logged out.</div>
+    <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+    <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
+
+    <form th:action="@{/login}" method="post">
+        <div class="field">
+            <label for="username">Email</label>
+            <input type="email" id="username" name="username" required autofocus/>
+        </div>
+        <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required/>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Log in</button>
+    </form>
+
+    <p class="sub" style="margin-top:20px;">New here? <a th:href="@{/register}">Create an account</a></p>
+    <p class="sub" style="font-size:0.82rem;">Demo logins: admin@educonsult.com / admin123 | student@educonsult.com / student123 | counsellor@educonsult.com / counsellor123</p>
+</div>
+
+</body>
+</html>

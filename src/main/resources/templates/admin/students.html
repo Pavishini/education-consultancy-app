@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Manage students')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="page-header">
+        <div>
+            <h1>Manage students</h1>
+            <p>Review registered students and remove accounts when needed.</p>
+        </div>
+        <a th:href="@{/admin/dashboard}" class="btn btn-outline">Back to dashboard</a>
+    </div>
+
+    <div class="card">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Profile</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.fullName}">Student</td>
+                <td th:text="${student.email}">student@example.com</td>
+                <td th:text="${student.role}">STUDENT</td>
+                <td>
+                    <form th:action="@{/admin/students/remove/{id}(id=${student.id})}" method="post" onsubmit="return confirm('Remove this student account?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(students)}">
+                <td colspan="4" class="muted">No students registered yet.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

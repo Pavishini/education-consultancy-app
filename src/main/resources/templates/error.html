@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Page not found')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="auth-wrap" style="text-align:center;">
+        <h2>Page not found</h2>
+        <p class="sub" th:text="${message != null ? message : 'The page you are trying to open does not exist or you do not have access to it.'}">
+            The page you are trying to open does not exist or you do not have access to it.
+        </p>
+        <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:20px;">
+            <a th:href="@{/dashboard}" class="btn btn-primary">Go to dashboard</a>
+            <a th:href="@{/login}" class="btn btn-outline">Login again</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

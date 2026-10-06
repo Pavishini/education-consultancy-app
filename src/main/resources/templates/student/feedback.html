@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Course feedback')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="page">
+    <div class="page-header">
+        <div>
+            <h1>Feedback and ratings</h1>
+            <p>Share your experience after completing a course.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <form th:action="@{/student/feedback/{id}(id=${course.id})}" method="post">
+            <div class="field">
+                <label for="rating">Rating</label>
+                <select id="rating" name="rating">
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Very good</option>
+                    <option value="3">3 - Good</option>
+                    <option value="2">2 - Fair</option>
+                    <option value="1">1 - Poor</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="comment">Comment</label>
+                <textarea id="comment" name="comment" rows="4" placeholder="What did you like or improve?"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit feedback</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

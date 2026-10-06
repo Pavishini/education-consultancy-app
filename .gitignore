@@ -1,0 +1,13 @@
+target/
+.venv/
+venv/
+.idea/
+.vscode/
+*.iml
+.env
+*.log
+# Local runtime/database artifacts
+app.log
+data/
+qc
+query

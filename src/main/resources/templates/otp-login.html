@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('OTP login')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="auth-wrap">
+    <h2>OTP login</h2>
+    <p class="sub">Request a one-time password and verify it.</p>
+
+    <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
+    <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+
+    <form th:action="@{/otp-login}" method="post">
+        <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required/>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Send OTP</button>
+    </form>
+
+    <form th:action="@{/otp-verify}" method="post" style="margin-top:24px;">
+        <input type="hidden" name="email" th:value="${email}"/>
+        <div class="field">
+            <label for="otp">OTP code</label>
+            <input type="text" id="otp" name="otp" maxlength="6" required/>
+        </div>
+        <button type="submit" class="btn btn-outline" style="width:100%;">Verify OTP</button>
+    </form>
+</div>
+
+</body>
+</html>
